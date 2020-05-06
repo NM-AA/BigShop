@@ -557,7 +557,7 @@ public class Cart {
                 System.out.println("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
                         " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()));
             }
-            System.out.println("Total price for phone insurance including taxes = "+getInsurance().getFinalPrice());
+            System.out.println("Total price for phone insurance including discounts = "+getInsurance().getFinalPrice());
             basePrice += getInsurance().getFinalPrice();
             sumPrice += getInsurance().getFinalPrice();
         }
@@ -565,7 +565,7 @@ public class Cart {
             System.out.println("\nWired earphones\n"+getWiredEarphones().getAmount()+" * "+
                     getWiredEarphones().getUnitPrice()+" CHF = "+
                     getWiredEarphones().getPriceWithoutDiscount());
-            System.out.println("Total price for wired headphones = "+getWiredEarphones().getFinalPrice());
+            System.out.println("Total price for wired headphones including taxes = "+getWiredEarphones().getFinalPrice());
             basePrice += (getWiredEarphones().getFinalPrice() / getWiredEarphones().getWiredTax());
             taxAdded = (float) (taxAdded + ((getWiredEarphones().getFinalPrice() /
                     getWiredEarphones().getWiredTax()) * 0.12));
@@ -576,7 +576,7 @@ public class Cart {
             System.out.println("\nWireless earphones\n"+getWirelessEarphones().getAmount()+" * "+
                     getWirelessEarphones().getUnitPrice()+" CHF = "+
                     getWirelessEarphones().getPriceWithoutDiscount());
-            System.out.println("Total price for wireless headphones = "+getWirelessEarphones().getFinalPrice());
+            System.out.println("Total price for wireless headphones including taxes = "+getWirelessEarphones().getFinalPrice());
             basePrice += (getWirelessEarphones().getFinalPrice() / getWirelessEarphones().getWirelessTax());
             taxAdded = (float) (taxAdded + ((getWirelessEarphones().getFinalPrice() /
                     getWirelessEarphones().getWirelessTax()) * 0.12));
