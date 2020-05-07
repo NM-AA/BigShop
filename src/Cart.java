@@ -583,9 +583,9 @@ public class Cart {
             sumPrice += getWirelessEarphones().getFinalPrice();
             //System.out.println("5 "+basePrice+"\t"+taxAdded);
         }
-        System.out.println("---\nSales tax\tBase price\tTax");
-        System.out.println("12%\t\t\t"+basePrice+"\t\t"+taxAdded);
-        System.out.println("---\nSum "+sumPrice+"\n---");
+        System.out.println("---\nSales tax - Base price - Tax");
+        System.out.println("12% - "+basePrice+" - "+taxAdded);
+        System.out.println("---\nSum - "+sumPrice+"\n---");
     }
 
     public static void reviewOrder(Scanner scanner) {
