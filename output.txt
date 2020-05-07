@@ -1,0 +1,33 @@
+---
+Big Shop
+2020/05/07 08:24:02
+---
+
+SIM card
+10 * 20 CHF = 200
+Discount 100% * 5 = 100
+Total price for SIM cards including taxes and discounts = 112.0
+
+Phone case
+4 * 10 CHF = 40
+Discount 100% * 1 = 10
+Total price for phone cases including taxes and discounts = 33.6
+
+Phone insurance
+1 * 120 CHF = 120
+Discount 20% * 1 = 120
+Total price for phone insurance including discounts = 96.0
+
+Wired earphones
+1 * 30 CHF = 30
+Total price for wired headphones including taxes = 33.6
+
+Wireless earphones
+1 * 50 CHF = 50
+Total price for wireless headphones including taxes = 56.0
+---
+Sales tax - Base price - Tax
+12% - 306.0 - 25.199999
+---
+Sum - 331.2
+---

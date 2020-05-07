@@ -1,6 +1,9 @@
+import java.io.FileWriter;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.io.File;
+import java.io.IOException;
 
 public class Cart {
     private static boolean loop = true;
@@ -516,82 +519,125 @@ public class Cart {
     }
 
     public static void cartOutput() {
-        float basePrice = 0;
-        float taxAdded = 0;
-        float sumPrice = 0;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println("---\nBig Shop\n"+dtf.format(now)+"\n---");
-        if (checkAmountOfSIM() > 0){
-            System.out.println("\nSIM card\n"+getSim().getAmount()+" * "+
-                    getSim().getUnitPrice()+" CHF = "+getSim().getPriceWithoutDiscount());
-            if (0 < getSim().getNumberOfDiscounts()) {
-                System.out.println("Discount 100% * " + getSim().getNumberOfDiscounts()+
-                        " = " + (getSim().getNumberOfDiscounts() * getSim().getUnitPrice()));
+        try {
+            File myObj = new File("output.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("Output file created: " + myObj.getName());
+            } else {
+                System.out.println("Output file already exists.");
             }
-            System.out.println("Total price for SIM cards including taxes and discounts = "+
-                    getSim().getFinalPrice());
-            basePrice += (getSim().getFinalPrice() / getSim().getSIMTax());
-            taxAdded = (float) (taxAdded + ((getSim().getFinalPrice() / getSim().getSIMTax()) * 0.12));
-            sumPrice += getSim().getFinalPrice();
-            //System.out.println("1 "+basePrice+"\t"+taxAdded);
-        }
-        if (checkAmountOfPhoneCases() > 0){
-            System.out.println("\nPhone case\n"+getPhoneCase().getAmount()+" * "+
-                    getPhoneCase().getUnitPrice()+" CHF = "+getPhoneCase().getPriceWithoutDiscount());
-            if (0 < getPhoneCase().getNumberOfDiscounts()) {
-                System.out.println("Discount 100% * "+getPhoneCase().getNumberOfDiscounts()+
-                        " = "+(getPhoneCase().getNumberOfDiscounts()*getPhoneCase().getUnitPrice()));
+            FileWriter fileWriter = new FileWriter("output.txt");
+            float basePrice = 0;
+            float taxAdded = 0;
+            float sumPrice = 0;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            System.out.println("---\nBig Shop\n"+dtf.format(now)+"\n---");
+            fileWriter.write("---\nBig Shop\n"+dtf.format(now)+"\n---\n");
+            if (checkAmountOfSIM() > 0){
+                System.out.println("\nSIM card\n"+getSim().getAmount()+" * "+
+                        getSim().getUnitPrice()+" CHF = "+getSim().getPriceWithoutDiscount());
+                fileWriter.write("\nSIM card\n"+getSim().getAmount()+" * "+
+                        getSim().getUnitPrice()+" CHF = "+getSim().getPriceWithoutDiscount()+"\n");
+                if (0 < getSim().getNumberOfDiscounts()) {
+                    System.out.println("Discount 100% * " + getSim().getNumberOfDiscounts()+
+                            " = " + (getSim().getNumberOfDiscounts() * getSim().getUnitPrice()));
+                    fileWriter.write("Discount 100% * " + getSim().getNumberOfDiscounts()+
+                            " = " + (getSim().getNumberOfDiscounts() * getSim().getUnitPrice()+"\n"));
+                }
+                System.out.println("Total price for SIM cards including taxes and discounts = "+
+                        getSim().getFinalPrice());
+                fileWriter.write("Total price for SIM cards including taxes and discounts = "+
+                        getSim().getFinalPrice()+"\n");
+                basePrice += (getSim().getFinalPrice() / getSim().getSIMTax());
+                taxAdded = (float) (taxAdded + ((getSim().getFinalPrice() / getSim().getSIMTax()) * 0.12));
+                sumPrice += getSim().getFinalPrice();
+                //System.out.println("1 "+basePrice+"\t"+taxAdded);
             }
-            System.out.println("Total price for phone cases including taxes and discounts = "+
-                    getPhoneCase().getFinalPrice());
-            basePrice += (getPhoneCase().getFinalPrice() / getPhoneCase().getCaseTax());
-            taxAdded = (float) (taxAdded + ((getPhoneCase().getFinalPrice() / getPhoneCase().getCaseTax()) * 0.12));
-            sumPrice += getPhoneCase().getFinalPrice();
-            //System.out.println("2 "+basePrice+"\t"+taxAdded);
-        }
-        if (checkAmountOfInsurance() > 0){
-            System.out.println("\nPhone insurance\n"+getInsurance().getAmount()+" * "+
-                    getInsurance().getUnitPrice()+" CHF = "+getInsurance().getPriceWithoutDiscount());
-            if (0 < getInsurance().getNumberOfDiscounts()) {
-                System.out.println("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
-                        " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()));
+            if (checkAmountOfPhoneCases() > 0){
+                System.out.println("\nPhone case\n"+getPhoneCase().getAmount()+" * "+
+                        getPhoneCase().getUnitPrice()+" CHF = "+getPhoneCase().getPriceWithoutDiscount());
+                fileWriter.write("\nPhone case\n"+getPhoneCase().getAmount()+" * "+
+                        getPhoneCase().getUnitPrice()+" CHF = "+getPhoneCase().getPriceWithoutDiscount()+"\n");
+                if (0 < getPhoneCase().getNumberOfDiscounts()) {
+                    System.out.println("Discount 100% * "+getPhoneCase().getNumberOfDiscounts()+
+                            " = "+(getPhoneCase().getNumberOfDiscounts()*getPhoneCase().getUnitPrice()));
+                    fileWriter.write("Discount 100% * "+getPhoneCase().getNumberOfDiscounts()+
+                            " = "+(getPhoneCase().getNumberOfDiscounts()*getPhoneCase().getUnitPrice())+"\n");
+                }
+                System.out.println("Total price for phone cases including taxes and discounts = "+
+                        getPhoneCase().getFinalPrice());
+                fileWriter.write("Total price for phone cases including taxes and discounts = "+
+                        getPhoneCase().getFinalPrice()+"\n");
+                basePrice += (getPhoneCase().getFinalPrice() / getPhoneCase().getCaseTax());
+                taxAdded = (float) (taxAdded + ((getPhoneCase().getFinalPrice() / getPhoneCase().getCaseTax()) * 0.12));
+                sumPrice += getPhoneCase().getFinalPrice();
+                //System.out.println("2 "+basePrice+"\t"+taxAdded);
             }
-            System.out.println("Total price for phone insurance including taxes = "+getInsurance().getFinalPrice());
-            basePrice += getInsurance().getFinalPrice();
-            sumPrice += getInsurance().getFinalPrice();
+            if (checkAmountOfInsurance() > 0){
+                System.out.println("\nPhone insurance\n"+getInsurance().getAmount()+" * "+
+                        getInsurance().getUnitPrice()+" CHF = "+getInsurance().getPriceWithoutDiscount());
+                fileWriter.write("\nPhone insurance\n"+getInsurance().getAmount()+" * "+
+                        getInsurance().getUnitPrice()+" CHF = "+getInsurance().getPriceWithoutDiscount()+"\n");
+                if (0 < getInsurance().getNumberOfDiscounts()) {
+                    System.out.println("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
+                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()));
+                    fileWriter.write("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
+                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice())+"\n");
+                }
+                System.out.println("Total price for phone insurance including discounts = "+getInsurance().getFinalPrice());
+                fileWriter.write("Total price for phone insurance including discounts = "+getInsurance().getFinalPrice()+"\n");
+                basePrice += getInsurance().getFinalPrice();
+                sumPrice += getInsurance().getFinalPrice();
+            }
+            if (checkAmountOfWiredEarphones() > 0){
+                System.out.println("\nWired earphones\n"+getWiredEarphones().getAmount()+" * "+
+                        getWiredEarphones().getUnitPrice()+" CHF = "+
+                        getWiredEarphones().getPriceWithoutDiscount());
+                System.out.println("Total price for wired headphones including taxes = "+getWiredEarphones().getFinalPrice());
+                fileWriter.write("\nWired earphones\n"+getWiredEarphones().getAmount()+" * "+
+                        getWiredEarphones().getUnitPrice()+" CHF = "+
+                        getWiredEarphones().getPriceWithoutDiscount()+"\n");
+                fileWriter.write("Total price for wired headphones including taxes = "+getWiredEarphones().getFinalPrice()+"\n");
+                basePrice += (getWiredEarphones().getFinalPrice() / getWiredEarphones().getWiredTax());
+                taxAdded = (float) (taxAdded + ((getWiredEarphones().getFinalPrice() /
+                        getWiredEarphones().getWiredTax()) * 0.12));
+                sumPrice += getWiredEarphones().getFinalPrice();
+                //System.out.println("4 "+basePrice+"\t"+taxAdded);
+            }
+            if (checkAmountOfWirelessEarphones() > 0){
+                System.out.println("\nWireless earphones\n"+getWirelessEarphones().getAmount()+" * "+
+                        getWirelessEarphones().getUnitPrice()+" CHF = "+
+                        getWirelessEarphones().getPriceWithoutDiscount());
+                System.out.println("Total price for wireless headphones including taxes = "+getWirelessEarphones().getFinalPrice());
+                fileWriter.write("\nWireless earphones\n"+getWirelessEarphones().getAmount()+" * "+
+                        getWirelessEarphones().getUnitPrice()+" CHF = "+
+                        getWirelessEarphones().getPriceWithoutDiscount()+"\n");
+                fileWriter.write("Total price for wireless headphones including taxes = "+getWirelessEarphones().getFinalPrice()+"\n");
+                basePrice += (getWirelessEarphones().getFinalPrice() / getWirelessEarphones().getWirelessTax());
+                taxAdded = (float) (taxAdded + ((getWirelessEarphones().getFinalPrice() /
+                        getWirelessEarphones().getWirelessTax()) * 0.12));
+                sumPrice += getWirelessEarphones().getFinalPrice();
+                //System.out.println("5 "+basePrice+"\t"+taxAdded);
+            }
+            System.out.println("---\nSales tax - Base price - Tax");
+            System.out.println("12% - "+basePrice+" - "+taxAdded);
+            System.out.println("---\nSum - "+sumPrice+"\n---");
+            fileWriter.write("---\nSales tax - Base price - Tax\n");
+            fileWriter.write("12% - "+basePrice+" - "+taxAdded+"\n");
+            fileWriter.write("---\nSum - "+sumPrice+"\n---\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating  output file or file writer.");
+            e.printStackTrace();
         }
-        if (checkAmountOfWiredEarphones() > 0){
-            System.out.println("\nWired earphones\n"+getWiredEarphones().getAmount()+" * "+
-                    getWiredEarphones().getUnitPrice()+" CHF = "+
-                    getWiredEarphones().getPriceWithoutDiscount());
-            System.out.println("Total price for wired headphones = "+getWiredEarphones().getFinalPrice());
-            basePrice += (getWiredEarphones().getFinalPrice() / getWiredEarphones().getWiredTax());
-            taxAdded = (float) (taxAdded + ((getWiredEarphones().getFinalPrice() /
-                    getWiredEarphones().getWiredTax()) * 0.12));
-            sumPrice += getWiredEarphones().getFinalPrice();
-            //System.out.println("4 "+basePrice+"\t"+taxAdded);
-        }
-        if (checkAmountOfWirelessEarphones() > 0){
-            System.out.println("\nWireless earphones\n"+getWirelessEarphones().getAmount()+" * "+
-                    getWirelessEarphones().getUnitPrice()+" CHF = "+
-                    getWirelessEarphones().getPriceWithoutDiscount());
-            System.out.println("Total price for wireless headphones = "+getWirelessEarphones().getFinalPrice());
-            basePrice += (getWirelessEarphones().getFinalPrice() / getWirelessEarphones().getWirelessTax());
-            taxAdded = (float) (taxAdded + ((getWirelessEarphones().getFinalPrice() /
-                    getWirelessEarphones().getWirelessTax()) * 0.12));
-            sumPrice += getWirelessEarphones().getFinalPrice();
-            //System.out.println("5 "+basePrice+"\t"+taxAdded);
-        }
-        System.out.println("---\nSales tax - Base price - Tax");
-        System.out.println("12% - "+basePrice+" - "+taxAdded);
-        System.out.println("---\nSum - "+sumPrice+"\n---");
     }
 
     public static void reviewOrder(Scanner scanner) {
         boolean reviewLoop = true;
         while (reviewLoop) {
-            System.out.println("---\nPlease review the contents of your cart.\n---");
+            System.out.println("---\nPlease review the contents of your cart." +
+                    "\n(Calculated prices include taxes and discounts.)\n---");
             showCartContent();
             System.out.println("---\nEnter 1 to confirm purchase and to receive an invoice" +
                     "\n2 to return.");
