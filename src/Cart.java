@@ -164,14 +164,17 @@ public class Cart {
             setValidInput(scanner.nextLine());
             while (true){
                 switch (getValidInput().toLowerCase()) {
-                    case "y" -> {
+                    case "y" : {
                         System.out.println("One free SIM card was added.\n");
                         return ++toBeAdded;
                     }
-                    case "n" -> {
+                    case "n" : {
                         return toBeAdded;
                     }
-                    default -> System.out.println("***\nInvalid input.\n***\n");
+                    default : {
+                        System.out.println("***\nInvalid input.\n***\n");
+                        break;
+                    }
                 }
             }
         } else {
@@ -189,14 +192,17 @@ public class Cart {
             setValidInput(scanner.nextLine());
             while (true){
                 switch (getValidInput().toLowerCase()) {
-                    case "y" -> {
+                    case "y" : {
                         System.out.println("One free phone case was added.\n");
                         return ++toBeAdded;
                     }
-                    case "n" -> {
+                    case "n" : {
                         return toBeAdded;
                     }
-                    default -> System.out.println("***\nInvalid input.\n***\n");
+                    default : {
+                        System.out.println("***\nInvalid input.\n***\n");
+                        break;
+                    }
                 }
             }
         }
@@ -211,7 +217,7 @@ public class Cart {
             while (true){
                 setValidInput(scanner.nextLine());
                 switch (getValidInput().toLowerCase()) {
-                    case "y" -> {
+                    case "y" : {
                         insuranceShopping(scanner);
                         if (0 == checkAmountOfInsurance()) {
                             System.out.println("No insurance was added to your cart." +
@@ -224,11 +230,14 @@ public class Cart {
                         }
                         return;
                     }
-                    case "n" -> {
+                    case "n" : {
                         System.out.println("Returning...\n");
                         return;
                     }
-                    default -> System.out.println("***\nInvalid input.\n***\n");
+                    default : {
+                        System.out.println("***\nInvalid input.\n***\n");
+                        break;
+                    }
                 }
             }
         }
@@ -246,7 +255,7 @@ public class Cart {
                         "without a discount on phone insurance.");
                 setValidInput(scanner.nextLine());
                 switch (getValidInput()) {
-                    case "1" -> {
+                    case "1" : {
                         wiredShopping(scanner);
                         if (0 == checkAmountOfWiredEarphones()) {
                             System.out.println("No discount was applied to your " +
@@ -260,7 +269,7 @@ public class Cart {
                         }
                         return;
                     }
-                    case "2" -> {
+                    case "2" : {
                         wirelessShopping(scanner);
                         if (0 == checkAmountOfWirelessEarphones()) {
                             System.out.println("No discount was applied to your " +
@@ -274,11 +283,14 @@ public class Cart {
                         }
                         return;
                     }
-                    case "3" -> {
+                    case "3" : {
                         System.out.println("Returning...\n");
                         return;
                     }
-                    default -> System.out.println("***\nInvalid input.\n***\n");
+                    default : {
+                        System.out.println("***\nInvalid input.\n***\n");
+                        break;
+                    }
                 }
             }
         }
@@ -516,16 +528,35 @@ public class Cart {
                     "\n5 for wireless headphones (50 CHF)\n6 to return.");
             setValidInput(scanner.nextLine());
             switch (getValidInput()) {
-                case "1" -> SIMCardshopping(scanner);
-                case "2" -> phoneCaseShopping(scanner);
-                case "3" -> insuranceShopping(scanner);
-                case "4" -> wiredShopping(scanner);
-                case "5" -> wirelessShopping(scanner);
-                case "6" -> {
+                case "1" : {
+                    SIMCardshopping(scanner);
+                    break;
+                }
+                case "2" : {
+                    phoneCaseShopping(scanner);
+                    break;
+                }
+                case "3" : {
+                    insuranceShopping(scanner);
+                    break;
+                }
+                case "4" : {
+                    wiredShopping(scanner);
+                    break;
+                }
+                case "5" : {
+                    wirelessShopping(scanner);
+                    break;
+                }
+                case "6" : {
                     System.out.println("Returning...\n");
                     shoppingLoop = false;
+                    break;
                 }
-                default -> System.out.println("***\nInvalid input\n***\n");
+                default : {
+                    System.out.println("***\nInvalid input\n***\n");
+                    break;
+                }
             }
         }
     }
@@ -626,9 +657,9 @@ public class Cart {
                         getInsurance().getUnitPrice()+" CHF = "+getInsurance().getPriceWithoutDiscount()+"\n");
                 if (0 < getInsurance().getNumberOfDiscounts()) {
                     System.out.println("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
-                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()));
+                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()*getInsurance().getInsuranceDiscount()));
                     fileWriter.write("Discount 20% * "+getInsurance().getNumberOfDiscounts()+
-                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice())+"\n");
+                            " = "+(getInsurance().getNumberOfDiscounts()*getInsurance().getUnitPrice()*getInsurance().getInsuranceDiscount())+"\n");
                 }
                 System.out.println("Total price for phone insurance including discounts = "+getInsurance().getFinalPrice());
                 fileWriter.write("Total price for phone insurance including discounts = "+getInsurance().getFinalPrice()+"\n");
@@ -688,17 +719,22 @@ public class Cart {
                     "\n2 to return.");
             setValidInput(scanner.nextLine());
             switch (getValidInput()) {
-                case "1" -> {
+                case "1" : {
                     cartOutput();
                     System.out.println("Thank you for your purchase...\n");
                     orderCleanup();
                     reviewLoop = false;
+                    break;
                 }
-                case "2" -> {
+                case "2" : {
                     System.out.println("Returning...\n");
                     reviewLoop = false;
+                    break;
                 }
-                default -> System.out.println("Invalid input\n");
+                default : {
+                    System.out.println("Invalid input\n");
+                    break;
+                }
             }
         }
     }
@@ -712,24 +748,30 @@ public class Cart {
                     "or\n3 to return.");
             setValidInput(scanner.nextLine());
             switch (getValidInput()) {
-                case "1" -> {
+                case "1" : {
                     if (getCurrentItemAmount() > 0) {
                         reviewOrder(scanner);
                     } else System.out.println("No items in cart.\nReturning...\n");
                     checkoutLoop = false;
+                    break;
                 }
-                case "2" -> {
+                case "2" : {
                     if (getCurrentItemAmount() > 0) {
                         System.out.println("Discarding items in cart...\n");
                         orderCleanup();
                     } else System.out.println("No items to discard.\nReturning...\n");
                     checkoutLoop = false;
+                    break;
                 }
-                case "3" -> {
+                case "3" : {
                     System.out.println("Returning...\n");
                     checkoutLoop = false;
+                    break;
                 }
-                default -> System.out.println("***\nInvalid input\n***\n");
+                default : {
+                    System.out.println("***\nInvalid input\n***\n");
+                    break;
+                }
             }
         }
     }
@@ -759,10 +801,11 @@ public class Cart {
                 lineNumber++;
                 line = inputScanner.nextLine().split(" ");
                 switch (line[0].toLowerCase()) {
-                    case "" -> {
+                    case "" : {
                         //System.out.println("Empty line.");
+                        break;
                     }
-                    case "sim" -> {
+                    case "sim" : {
                         if (line[1].toLowerCase().equals("card")) {
                             try {
                                 amount = Integer.parseInt(line[2]);
@@ -794,8 +837,9 @@ public class Cart {
                             orderCleanup();
                             return;
                         }
+                        break;
                     }
-                    case "phone" -> {
+                    case "phone" : {
                         if (line[1].toLowerCase().equals("case")) {
                             try {
                                 amount = Integer.parseInt(line[2]);
@@ -840,8 +884,9 @@ public class Cart {
                             orderCleanup();
                             return;
                         }
+                        break;
                     }
-                    case "wired" -> {
+                    case "wired" : {
                         if (line[1].toLowerCase().equals("earphones")) {
                             try {
                                 amount = Integer.parseInt(line[2]);
@@ -866,8 +911,9 @@ public class Cart {
                             orderCleanup();
                             return;
                         }
+                        break;
                     }
-                    case "wireless" -> {
+                    case "wireless" : {
                         if (line[1].toLowerCase().equals("earphones")) {
                             try {
                                 amount = Integer.parseInt(line[2]);
@@ -892,14 +938,16 @@ public class Cart {
                             orderCleanup();
                             return;
                         }
+                        break;
                     }
-                    default -> {
+                    default : {
                         System.out.println("Invalid input file format (line "+lineNumber+").");
                         orderCleanup();
                         return;
                     }
                 }
             }
+            inputScanner.close();
             cartOutput();
             orderCleanup();
             System.out.println("Thank you for your purchase.");
@@ -916,7 +964,7 @@ public class Cart {
                     "\n1 to select which products you wish to buy\n2 to go to checkout\n3 to exit.");
             setValidInput(scanner.nextLine());
             switch (validInput) {
-                case "0" -> {
+                case "0" : {
                     try {
                         System.out.println("Please enter the path to the input file:");
                         setValidInput(scanner.nextLine());
@@ -924,22 +972,29 @@ public class Cart {
                     } catch (Exception e) {
                         System.out.println("Unsuccessful reading of input file.");
                     }
+                    break;
                 }
-                case "1" -> {
+                case "1" : {
                     System.out.println("Continuing shopping...\n");
                     shopping(scanner);
+                    break;
                 }
-                case "2" -> {
+                case "2" : {
                     System.out.println("Proceeding to checkout...\n");
                     checkoutOrder(scanner);
+                    break;
                 }
-                case "3" -> {
+                case "3" : {
                     if (confirmExit(scanner)) {
                         scanner.close();
                         setLoop(false);
                     }
+                    break;
                 }
-                default -> System.out.println("***\nInvalid input\n***\n");
+                default : {
+                    System.out.println("***\nInvalid input\n***\n");
+                    break;
+                }
             }
         }
     }
