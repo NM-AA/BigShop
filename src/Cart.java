@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
@@ -59,6 +60,7 @@ public class Cart {
             getSim().setAmount(currentSIMAmount+toBeAdded);
         }
         getSim().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
     }
 
     public static void addPhoneCase (int toBeAdded){
@@ -69,9 +71,10 @@ public class Cart {
             getPhoneCase().setAmount(currentPhoneCaseAmount+toBeAdded);
         }
         getPhoneCase().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
     }
 
-    public static void addWiredEarphones (Scanner scanner, int toBeAdded){
+    public static void addWiredEarphones (Scanner scanner, int toBeAdded){ //add earphones from user interaction
         int currentWiredEarphonesAmount = checkAmountOfWiredEarphones();
         if (0 == currentWiredEarphonesAmount){
             setWiredEarphones(new WiredEarphones(toBeAdded));
@@ -80,9 +83,25 @@ public class Cart {
         }
         checkInsuranceEarphonesDiscount(scanner);
         getWiredEarphones().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
     }
 
-    public static void addWirelessEarphones (Scanner scanner, int toBeAdded){
+    public static void addInputWiredEarphones(int toBeAdded) { //add earphones from input file
+        int currentWiredEarphonesAmount = checkAmountOfWiredEarphones();
+        if (0 == currentWiredEarphonesAmount){
+            setWiredEarphones(new WiredEarphones(toBeAdded));
+        } else {
+            getWiredEarphones().setAmount(currentWiredEarphonesAmount+toBeAdded);
+        }
+        if (checkAmountOfInsurance() > 0){
+            getInsurance().setNumberOfDiscounts(getInsurance().getAmount());
+            getInsurance().setFinalPrice();
+        }
+        getWiredEarphones().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
+    }
+
+    public static void addWirelessEarphones (Scanner scanner, int toBeAdded){ //add earphones from user interaction
         int currentWirelessEarphonesAmount = checkAmountOfWirelessEarphones();
         if (0 == currentWirelessEarphonesAmount){
             setWirelessEarphones(new WirelessEarphones(toBeAdded));
@@ -91,9 +110,25 @@ public class Cart {
         }
         checkInsuranceEarphonesDiscount(scanner);
         getWirelessEarphones().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
     }
 
-    public static void addInsurance (int toBeAdded){
+    public static void addInputWirelessEarphones (int toBeAdded){ //add earphones from input file
+        int currentWirelessEarphonesAmount = checkAmountOfWirelessEarphones();
+        if (0 == currentWirelessEarphonesAmount){
+            setWirelessEarphones(new WirelessEarphones(toBeAdded));
+        } else {
+            getWirelessEarphones().setAmount(currentWirelessEarphonesAmount+toBeAdded);
+        }
+        if (checkAmountOfInsurance() > 0){
+            getInsurance().setNumberOfDiscounts(getInsurance().getAmount());
+            getInsurance().setFinalPrice();
+        }
+        getWirelessEarphones().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
+    }
+
+    public static void addInsurance (int toBeAdded){ //add insurance from user interaction
         int currentInsuranceAmount = checkAmountOfInsurance();
         if (0 == currentInsuranceAmount){
             setInsurance(new Insurance(toBeAdded));
@@ -104,6 +139,21 @@ public class Cart {
             getInsurance().setNumberOfDiscounts(getInsurance().getAmount());
         }
         getInsurance().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
+    }
+
+    public static void addInputInsurance (int toBeAdded){ //add insurance from input file
+        int currentInsuranceAmount = checkAmountOfInsurance();
+        if (0 == currentInsuranceAmount){
+            setInsurance(new Insurance(toBeAdded));
+        } else {
+            getInsurance().setAmount(currentInsuranceAmount+toBeAdded);
+        }
+        if (checkAmountOfWiredEarphones() > 0 || checkAmountOfWirelessEarphones() > 0){
+            getInsurance().setNumberOfDiscounts(getInsurance().getAmount());
+        }
+        getInsurance().setFinalPrice();
+        setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
     }
 
     public static int checkSIMBOGOF(Scanner scanner, int toBeAdded){
@@ -245,7 +295,6 @@ public class Cart {
         if ("y".equals(getValidInput().toLowerCase())) {
             addSIM(toBeAdded);
             System.out.println("You now have " + getSim().getAmount() + " SIM cards.");
-            setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
         } else {
             System.out.println("Returning...\n");
         }
@@ -262,7 +311,6 @@ public class Cart {
         if ("y".equals(getValidInput().toLowerCase())) {
             addPhoneCase(toBeAdded);
             System.out.println("You now have " + getPhoneCase().getAmount() + " phone cases.");
-            setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
         } else {
             System.out.println("Returning...\n");
         }
@@ -278,7 +326,6 @@ public class Cart {
         if ("y".equals(getValidInput().toLowerCase())) {
             addWiredEarphones(scanner, toBeAdded);
             System.out.println("You now have " + getWiredEarphones().getAmount() + " pairs of wired earphones.");
-            setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
         } else {
             System.out.println("Returning...\n");
         }
@@ -294,7 +341,6 @@ public class Cart {
         if ("y".equals(getValidInput().toLowerCase())) {
             addWirelessEarphones(scanner, toBeAdded);
             System.out.println("You now have " + getWirelessEarphones().getAmount() + " pairs of wireless earphones.");
-            setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
         } else {
             System.out.println("Returning...\n");
         }
@@ -310,7 +356,6 @@ public class Cart {
         if ("y".equals(getValidInput().toLowerCase())) {
             addInsurance(toBeAdded);
             System.out.println("You now have " + getInsurance().getAmount() + " phone insurances in your cart.");
-            setCurrentItemAmount(getCurrentItemAmount()+toBeAdded);
             checkInsuranceEarphonesDiscount(scanner);
         } else {
             System.out.println("Returning...\n");
@@ -701,14 +746,169 @@ public class Cart {
         }
     }
 
-    public static void main(String[] args){
+    public  static void readInputList(String pathToInputFile) throws FileNotFoundException {
+        orderCleanup();
+        //System.out.println(pathToInputFile);
+        if (new File(pathToInputFile).isFile()) {
+            File inputFile = new File(pathToInputFile);
+            Scanner inputScanner = new Scanner(inputFile);
+            String[] line;
+            int amount = 0;
+            int lineNumber = 0;
+            while (inputScanner.hasNextLine()) {
+                lineNumber++;
+                line = inputScanner.nextLine().split(" ");
+                switch (line[0].toLowerCase()) {
+                    case "" -> {
+                        //System.out.println("Empty line.");
+                    }
+                    case "sim" -> {
+                        if (line[1].toLowerCase().equals("card")) {
+                            try {
+                                amount = Integer.parseInt(line[2]);
+                                if (amount <= 0){
+                                    System.out.println("***\nNon-positive amount of SIM cards " +
+                                            "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    return;
+                                } else {
+                                    if (10 < amount || (limitSIM < amount + checkAmountOfSIM())) {
+                                        System.out.println("***\nThe maximum amount of SIM cards is 10 " +
+                                                "(amount breached on line "+lineNumber+").\n***\n");
+                                        return;
+                                    } else {
+                                        addSIM(amount);
+                                    }
+                                }
+                            }
+                            catch (Exception e) {
+                                System.out.println("***\nInvalid input for SIM card amount " +
+                                        "(line "+lineNumber+").\n***\n");
+                                return;
+                            }
+                        } else {
+                            System.out.println("***\nInvalid input for SIM card " +
+                                    "(line "+lineNumber+").\n***\n");
+                            return;
+                        }
+                    }
+                    case "phone" -> {
+                        if (line[1].toLowerCase().equals("case")) {
+                            try {
+                                amount = Integer.parseInt(line[2]);
+                                if (amount <= 0){
+                                    System.out.println("***\nNon-positive amount of phone cases " +
+                                            "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    return;
+                                } else {
+                                    addPhoneCase(amount);
+                                }
+                            }
+                            catch (Exception e) {
+                                System.out.println("***\nInvalid input for phone case amount " +
+                                        "(line "+lineNumber+").\n***\n");
+                                return;
+                            }
+                            break;
+                        }
+                        if (line[1].toLowerCase().equals("insurance")) {
+                            try {
+                                amount = Integer.parseInt(line[2]);
+                                if (amount <= 0){
+                                    System.out.println("***\nNon-positive amount of phone insurances " +
+                                            "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    return;
+                                } else {
+                                    addInputInsurance(amount);
+                                }
+                            }
+                            catch (Exception e) {
+                                System.out.println("***\nInvalid input for phone insurance amount " +
+                                        "(line "+lineNumber+").\n***\n");
+                                return;
+                            }
+                        } else {
+                            System.out.println("***\nInvalid input for phone case or insurance " +
+                                    "(line "+lineNumber+").\n***\n");
+                            return;
+                        }
+                    }
+                    case "wired" -> {
+                        if (line[1].toLowerCase().equals("earphones")) {
+                            try {
+                                amount = Integer.parseInt(line[2]);
+                                if (amount <= 0){
+                                    System.out.println("***\nNon-positive amount of wired earphones " +
+                                            "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    return;
+                                } else {
+                                    addInputWiredEarphones(amount);
+                                }
+                            }
+                            catch (Exception e) {
+                                System.out.println("***\nInvalid input for wired earphones amount " +
+                                        "(line "+lineNumber+").\n***\n");
+                                return;
+                            }
+                        } else {
+                            System.out.println("***\nInvalid input for wired earphones " +
+                                    "(line "+lineNumber+").\n***\n");
+                            return;
+                        }
+                    }
+                    case "wireless" -> {
+                        if (line[1].toLowerCase().equals("earphones")) {
+                            try {
+                                amount = Integer.parseInt(line[2]);
+                                if (amount <= 0){
+                                    System.out.println("***\nNon-positive amount of wireless earphones " +
+                                            "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    return;
+                                } else {
+                                    addInputWirelessEarphones(amount);
+                                }
+                            }
+                            catch (Exception e) {
+                                System.out.println("***\nInvalid input for wireless earphones amount " +
+                                        "(line "+lineNumber+").\n***\n");
+                                return;
+                            }
+                        } else {
+                            System.out.println("***\nInvalid input for wireless earphones " +
+                                    "(line "+lineNumber+").\n***\n");
+                            return;
+                        }
+                    }
+                    default -> {
+                        System.out.println("Invalid input file format (line "+lineNumber+").");
+                        return;
+                    }
+                }
+            }
+            cartOutput();
+            orderCleanup();
+            System.out.println("Thank you for your purchase.");
+        } else {
+            System.out.println("Input file could not be opened.");
+        }
+    }
 
+    public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         while (isLoop()) {
             System.out.println("---\nYour cart contains "+getCurrentItemAmount()+" products.\n---\n" +
-                    "Enter 1 to continue shopping\n2 to go to checkout\n3 to exit.");
+                    "Enter \n0 to input a list of products you wish to purchase (discards all other items in your cart)" +
+                    "\n1 to select which products you wish to buy\n2 to go to checkout\n3 to exit.");
             setValidInput(scanner.nextLine());
             switch (validInput) {
+                case "0" -> {
+                    try {
+                        System.out.println("Please enter the path to the input file:");
+                        setValidInput(scanner.nextLine());
+                        readInputList(getValidInput());
+                    } catch (Exception e) {
+                        System.out.println("Unsuccessful reading of input file.");
+                    }
+                }
                 case "1" -> {
                     System.out.println("Continuing shopping...\n");
                     shopping(scanner);
