@@ -769,11 +769,13 @@ public class Cart {
                                 if (amount <= 0){
                                     System.out.println("***\nNon-positive amount of SIM cards " +
                                             "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    orderCleanup();
                                     return;
                                 } else {
                                     if (10 < amount || (limitSIM < amount + checkAmountOfSIM())) {
                                         System.out.println("***\nThe maximum amount of SIM cards is 10 " +
                                                 "(amount breached on line "+lineNumber+").\n***\n");
+                                        orderCleanup();
                                         return;
                                     } else {
                                         addSIM(amount);
@@ -783,11 +785,13 @@ public class Cart {
                             catch (Exception e) {
                                 System.out.println("***\nInvalid input for SIM card amount " +
                                         "(line "+lineNumber+").\n***\n");
+                                orderCleanup();
                                 return;
                             }
                         } else {
                             System.out.println("***\nInvalid input for SIM card " +
                                     "(line "+lineNumber+").\n***\n");
+                            orderCleanup();
                             return;
                         }
                     }
@@ -798,6 +802,7 @@ public class Cart {
                                 if (amount <= 0){
                                     System.out.println("***\nNon-positive amount of phone cases " +
                                             "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    orderCleanup();
                                     return;
                                 } else {
                                     addPhoneCase(amount);
@@ -806,6 +811,7 @@ public class Cart {
                             catch (Exception e) {
                                 System.out.println("***\nInvalid input for phone case amount " +
                                         "(line "+lineNumber+").\n***\n");
+                                orderCleanup();
                                 return;
                             }
                             break;
@@ -816,6 +822,7 @@ public class Cart {
                                 if (amount <= 0){
                                     System.out.println("***\nNon-positive amount of phone insurances " +
                                             "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    orderCleanup();
                                     return;
                                 } else {
                                     addInputInsurance(amount);
@@ -824,11 +831,13 @@ public class Cart {
                             catch (Exception e) {
                                 System.out.println("***\nInvalid input for phone insurance amount " +
                                         "(line "+lineNumber+").\n***\n");
+                                orderCleanup();
                                 return;
                             }
                         } else {
                             System.out.println("***\nInvalid input for phone case or insurance " +
                                     "(line "+lineNumber+").\n***\n");
+                            orderCleanup();
                             return;
                         }
                     }
@@ -839,6 +848,7 @@ public class Cart {
                                 if (amount <= 0){
                                     System.out.println("***\nNon-positive amount of wired earphones " +
                                             "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    orderCleanup();
                                     return;
                                 } else {
                                     addInputWiredEarphones(amount);
@@ -847,11 +857,13 @@ public class Cart {
                             catch (Exception e) {
                                 System.out.println("***\nInvalid input for wired earphones amount " +
                                         "(line "+lineNumber+").\n***\n");
+                                orderCleanup();
                                 return;
                             }
                         } else {
                             System.out.println("***\nInvalid input for wired earphones " +
                                     "(line "+lineNumber+").\n***\n");
+                            orderCleanup();
                             return;
                         }
                     }
@@ -862,6 +874,7 @@ public class Cart {
                                 if (amount <= 0){
                                     System.out.println("***\nNon-positive amount of wireless earphones " +
                                             "cannot be purchased (line "+lineNumber+").\n***\n");
+                                    orderCleanup();
                                     return;
                                 } else {
                                     addInputWirelessEarphones(amount);
@@ -870,16 +883,19 @@ public class Cart {
                             catch (Exception e) {
                                 System.out.println("***\nInvalid input for wireless earphones amount " +
                                         "(line "+lineNumber+").\n***\n");
+                                orderCleanup();
                                 return;
                             }
                         } else {
                             System.out.println("***\nInvalid input for wireless earphones " +
                                     "(line "+lineNumber+").\n***\n");
+                            orderCleanup();
                             return;
                         }
                     }
                     default -> {
                         System.out.println("Invalid input file format (line "+lineNumber+").");
+                        orderCleanup();
                         return;
                     }
                 }

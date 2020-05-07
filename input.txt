@@ -7,4 +7,7 @@ Phone insurance 1
 
 Phone insurance 2
 
-SIM card 10
+SIM card 9
+
+SIM card 2
+
